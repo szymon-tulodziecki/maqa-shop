@@ -1,12 +1,19 @@
 import Header from './header.jsx'
+import ProductGrid from './ProductGrid.jsx'
+import BenefitsBar  from './BenefitsBar.jsx'
+import Footer from './Footer.jsx'
 
 function App() {
-
   return (
     <>
-      <header>
-<Header cartCount={3} />
-      </header>
+      <Header cartCount={3} />
+
+      <main>
+        <ProductGrid />
+        <BenefitsBar />
+      </main>
+
+      <Footer />
     </>
   )
 }

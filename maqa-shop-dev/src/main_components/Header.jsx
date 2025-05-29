@@ -1,7 +1,9 @@
-import { Mail, User, ShoppingCart } from "lucide-react";
+import { User, ShoppingCart, Mail } from "lucide-react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import logo from "./assets/logo.png";
+import logo from './main_components_assets/logo.png';
+import { Link } from "react-router-dom";
 import "./Header.css";
+
 
 function Header({ cartCount = 0 }) {
   return (
@@ -195,9 +197,10 @@ function Header({ cartCount = 0 }) {
 
         {/* Prawa sekcja: akcje */}
         <div className="header__actions">
-          <a href="/kontakt" aria-label="Kontakt">
-            <Mail size={20} style={{ verticalAlign: "middle" }} /> Kontakt
-          </a>
+<Link to="/kontakt" aria-label="Kontakt" className="nav-link no-arrow">
+  <Mail size={20} style={{ verticalAlign: "middle" }} /> Kontakt
+</Link>
+
           <a href="/zaloguj" aria-label="Zaloguj">
             <User size={20} style={{ verticalAlign: "middle" }} /> Zaloguj
           </a>

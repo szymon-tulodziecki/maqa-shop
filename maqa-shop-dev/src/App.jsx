@@ -1,7 +1,7 @@
-import Header from './header.jsx'
-import ProductGrid from './ProductGrid.jsx'
-import BenefitsBar  from './BenefitsBar.jsx'
-import Footer from './Footer.jsx'
+import Header from './main_components/Header.jsx';
+import ProductGrid from './main_components/ProductGrid.jsx';
+import BenefitsBar from './main_components/BenefitsBar.jsx';
+import Footer from './main_components/Footer.jsx';
 
 function App() {
   return (

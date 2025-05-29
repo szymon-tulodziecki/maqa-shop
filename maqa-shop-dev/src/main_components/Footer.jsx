@@ -1,8 +1,10 @@
 import React from "react";
-import logo from "./assets/logo.png";
-import visa from "./assets/visa.svg";
-import mastercard from "./assets/mastercard.svg";
-import blik from "./assets/blik.svg";
+import logo from "./main_components_assets/logo.png";
+import visa from "./main_components_assets/visa.svg";
+import mastercard from "./main_components_assets/mastercard.svg";
+import blik from "./main_components_assets/blik.svg";
+
+
 import { Facebook, Instagram, Linkedin } from "lucide-react";
 import "./Footer.css";
 

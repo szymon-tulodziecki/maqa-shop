@@ -1,7 +1,5 @@
-import React from "react";
 import "./ProductGrid.css";
-import maka from "./assets/maka.png";
-
+import maka from "./main_components_assets/maka.png"; 
 const products = [
   { id: 1, name: "Mąka ciemna razowa 1kg", image: maka, price: "8,99 zł", rating: 5, link: "/sklep/maka-ciemna-razowa" },
   { id: 2, name: "Mąka jasna razowa 1kg", image: maka, price: "9,99 zł", rating: 4, link: "/sklep/maka-jasna-razowa" },
@@ -44,9 +42,9 @@ function ProductGrid() {
               <div className="product-card__info">
                 <h2 className="product-card__name">{product.name}</h2>
                 <div className="product-card__price">{product.price}</div>
-                <button className="product-card__cta">Dodaj do koszyka</button>
               </div>
             </a>
+            <button className="product-card__cta">Dodaj do koszyka</button>
           </div>
         ))}
       </div>

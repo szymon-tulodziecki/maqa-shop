@@ -201,9 +201,9 @@ function Header({ cartCount = 0 }) {
   <Mail size={20} style={{ verticalAlign: "middle" }} /> Kontakt
 </Link>
 
-          <a href="/zaloguj" aria-label="Zaloguj">
-            <User size={20} style={{ verticalAlign: "middle" }} /> Zaloguj
-          </a>
+<Link to="/login" aria-label="Zaloguj" className="nav-link no-arrow">
+  <User size={20} style={{ verticalAlign: "middle" }} /> Zaloguj
+</Link>
           <a href="/koszyk" className="cart-link" aria-label="Koszyk">
             <ShoppingCart size={20} style={{ verticalAlign: "middle" }} /> Koszyk
             {cartCount > 0 && (

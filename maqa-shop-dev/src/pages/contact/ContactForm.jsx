@@ -13,7 +13,6 @@ export default function ContactForm() {
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
 
-  // Walidacje
   const validateName = (name) => {
     if (!name.trim()) return "Imię i nazwisko jest wymagane";
     const nameRegex = /^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+ [a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+/;
@@ -42,7 +41,6 @@ export default function ContactForm() {
     return "";
   };
 
-  // Obsługa zmian
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     const fieldValue = type === "checkbox" ? checked : value;
@@ -58,7 +56,6 @@ export default function ContactForm() {
     }
   };
 
-  // Obsługa blur (opuszczenie pola)
   const handleBlur = (e) => {
     const { name, value, type, checked } = e.target;
     const fieldValue = type === "checkbox" ? checked : value;
@@ -79,10 +76,8 @@ export default function ContactForm() {
     }));
   };
 
-  // Pomocnicza do wyświetlania błędów
   const shouldShowError = (field) => touched[field] && errors[field];
 
-  // Obsługa submit
   const handleSubmit = (e) => {
     e.preventDefault();
     const newErrors = {
@@ -101,9 +96,7 @@ export default function ContactForm() {
     });
     const hasErrors = Object.values(newErrors).some((err) => err !== "");
     if (!hasErrors) {
-      // Tutaj obsługa wysyłki formularza
       alert("Formularz został wysłany pomyślnie!");
-      // Możesz też wyczyścić formularz
        setFormData({ name: "", email: "", phone: "", message: "", consent: false });
        setTouched({});
        setErrors({});
@@ -176,30 +169,36 @@ export default function ContactForm() {
           </div>
         </div>
         <div className="contact-form__row contact-form__row--consent">
-          <label>
-            <input
-              type="checkbox"
-              name="consent"
-              checked={formData.consent}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              required
-              className={shouldShowError("consent") ? "invalid" : ""}
-            />{" "}
-            Wyrażam zgodę na przetwarzanie moich danych osobowych przez Maqa Sp. z o.o. w celu udzielenia odpowiedzi na zapytanie. Zapoznałem/am się z{" "}
-            <a
-              href="/polityka-prywatnosci"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              polityką prywatności
-            </a>
-            .
-          </label>
-          {shouldShowError("consent") && (
-            <span className="contact-form__error">{errors.consent}</span>
-          )}
-        </div>
+  <div className="contact-form__consent-checkbox">
+    <input
+      type="checkbox"
+      name="consent"
+      checked={formData.consent}
+      onChange={handleChange}
+      onBlur={handleBlur}
+      required
+      className={shouldShowError("consent") ? "invalid" : ""}
+      id="consent-checkbox"
+    />
+  </div>
+  <div className="contact-form__consent-text">
+    <label htmlFor="consent-checkbox">
+      Wyrażam zgodę na przetwarzanie moich danych osobowych przez Maqa Sp. z o.o. w celu udzielenia odpowiedzi na zapytanie. Zapoznałem/am się z{" "}
+      <a
+        href="/polityka-prywatnosci"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        polityką prywatności
+      </a>
+      .
+    </label>
+    {shouldShowError("consent") && (
+      <span className="contact-form__error">{errors.consent}</span>
+    )}
+  </div>
+</div>
+
         <div className="contact-form__row">
           <button type="submit">Wyślij wiadomość</button>
         </div>

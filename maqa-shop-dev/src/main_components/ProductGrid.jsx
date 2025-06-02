@@ -1,29 +1,79 @@
+import { useState, useEffect } from "react";
 import "./ProductGrid.css";
-import maka from "./main_components_assets/maka.png"; 
-const products = [
-  { id: 1, name: "Mąka ciemna razowa 1kg", image: maka, price: "8,99 zł", rating: 5, link: "/sklep/maka-ciemna-razowa" },
-  { id: 2, name: "Mąka jasna razowa 1kg", image: maka, price: "9,99 zł", rating: 4, link: "/sklep/maka-jasna-razowa" },
-  { id: 3, name: "Mąka i kasza gryczana 1kg", image: maka, price: "12,99 zł", rating: 5, link: "/sklep/maka-gryczana" },
-  { id: 4, name: "Otręby 500g", image: maka, price: "5,99 zł", rating: 4, link: "/sklep/otreby" },
-  { id: 5, name: "Czyszczone ziarna 1kg", image: maka, price: "10,99 zł", rating: 5, link: "/sklep/ziarna" },
-  { id: 6, name: "Trufle premium 200g", image: maka, price: "29,99 zł", rating: 5, link: "/sklep/trufle" },
-];
+import Ciemna_razowa from "./main_components_assets/ciemna_razowa.png";
+import Jasna_razowa from "./main_components_assets/jasna_razowa.png";
+import Kasza_gryczana from "./main_components_assets/kasza_gryczana.png";
+import Makaron from "./main_components_assets/makaron.png";
+import Oliwa from "./main_components_assets/oliwa.png";
+import Otreby from "./main_components_assets/otreby.png";
+import Ciastka from "./main_components_assets/ciastka.png";
+import Ziarna from "./main_components_assets/ziarna.png";
+import Trufle from "./main_components_assets/trufle.png";
 
-function ProductGrid() {
+const images = {
+  Ciemna_razowa,
+  Jasna_razowa,
+  Kasza_gryczana,
+  Makaron,
+  Oliwa,
+  Otreby,
+  Ciastka,
+  Ziarna,
+  Trufle,
+};
+
+const PRODUCTS_PER_PAGE = 12;
+
+function ProductGrid({ selectedCategory }) {
+  const [products, setProducts] = useState([]);
+  const [sort, setSort] = useState("default");
+  const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        // Używaj zawsze pełnego URL do API (Vite na 5173, backend na 3001)
+        const API_BASE_URL = "http://localhost:3001";
+        const url = selectedCategory
+          ? `${API_BASE_URL}/api/products?category=${encodeURIComponent(selectedCategory)}`
+          : `${API_BASE_URL}/api/products`;
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Błąd sieci');
+        const data = await response.json();
+        setProducts(data);
+      } catch (error) {
+        console.error('Błąd pobierania produktów:', error);
+        setProducts([]);
+      }
+    };
+    fetchProducts();
+  }, [selectedCategory]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [sort, products.length, selectedCategory]);
+
+  const sortedProducts = [...products].sort((a, b) => {
+    if (sort === "price-asc") return a.cena - b.cena;
+    if (sort === "price-desc") return b.cena - a.cena;
+    if (sort === "name-asc") return a.nazwa.localeCompare(b.nazwa, "pl");
+    return 0;
+  });
+
+  const totalPages = Math.ceil(sortedProducts.length / PRODUCTS_PER_PAGE);
+  const paginatedProducts = sortedProducts.slice(
+    (currentPage - 1) * PRODUCTS_PER_PAGE,
+    currentPage * PRODUCTS_PER_PAGE
+  );
+
   return (
     <section className="product-section">
-      {/* Breadcrumbs */}
-      <nav className="breadcrumbs">
-        <a href="/">Strona główna</a> &gt; <span>Sklep Maqa</span>
-      </nav>
-
-      {/* Nagłówek i sortowanie */}
       <div className="product-section__header">
         <h1>Sklep Maqa</h1>
         <div className="product-sort">
           <label>
             Sortuj:
-            <select defaultValue="default">
+            <select value={sort} onChange={e => setSort(e.target.value)}>
               <option value="default">Domyślnie</option>
               <option value="price-asc">Cena rosnąco</option>
               <option value="price-desc">Cena malejąco</option>
@@ -32,31 +82,68 @@ function ProductGrid() {
           </label>
         </div>
       </div>
-
-      {/* Siatka produktów */}
       <div className="product-grid">
-        {products.map(product => (
-          <div className="product-card" key={product.id}>
-            <a href={product.link}>
-              <img src={product.image} alt={product.name} className="product-card__image" />
-              <div className="product-card__info">
-                <h2 className="product-card__name">{product.name}</h2>
-                <div className="product-card__price">{product.price}</div>
-              </div>
-            </a>
-            <button className="product-card__cta">Dodaj do koszyka</button>
+        {paginatedProducts.length === 0 ? (
+          <div className="no-products-message">
+            Brak produktów w tej kategorii.
           </div>
-        ))}
+        ) : (
+          paginatedProducts.map(product => {
+            // Bezpieczne pobieranie obrazka
+            const imgSrc = images[product.komponent_obrazka] || images.Ciemna_razowa;
+            return (
+              <div className="product-card" key={product.id}>
+                <img
+                  src={imgSrc}
+                  alt={product.nazwa}
+                  className="product-card__image"
+                />
+                <div className="product-card__info">
+                  <h2 className="product-card__name">{product.nazwa}</h2>
+                  <div className="product-card__price">{product.cena} zł</div>
+                </div>
+                <button className="product-card__cta">Dodaj do koszyka</button>
+              </div>
+            );
+          })
+        )}
       </div>
-
-      {/* Paginacja */}
-      <div className="pagination">
-        <button className="pagination__btn active">1</button>
-        <button className="pagination__btn">2</button>
-        <button className="pagination__btn">3</button>
-      </div>
-
-      {/* Opis SEO na dole */}
+      {totalPages > 1 && (
+        <div className="pagination">
+          <button
+            className="pagination__arrow"
+            onClick={() => setCurrentPage(currentPage - 1)}
+            disabled={currentPage === 1}
+            aria-label="Poprzednia strona"
+          >
+            &lt;
+          </button>
+          <span className="pagination__gap" />
+          {(() => {
+            let start = Math.max(1, Math.min(currentPage - 1, totalPages - 2));
+            let end = Math.min(totalPages, start + 2);
+            if (end - start < 2) start = Math.max(1, end - 2);
+            return Array.from({ length: end - start + 1 }, (_, i) => start + i).map(page => (
+              <button
+                key={page}
+                className={`pagination__btn${currentPage === page ? " active" : ""}`}
+                onClick={() => setCurrentPage(page)}
+              >
+                {page}
+              </button>
+            ));
+          })()}
+          <span className="pagination__gap" />
+          <button
+            className="pagination__arrow"
+            onClick={() => setCurrentPage(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            aria-label="Następna strona"
+          >
+            &gt;
+          </button>
+        </div>
+      )}
       <div className="product-section__seo">
         <h2>Najlepszy sklep z mąkami i produktami Maqa</h2>
         <p>

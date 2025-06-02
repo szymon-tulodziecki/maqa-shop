@@ -4,17 +4,19 @@ import logo from './main_components_assets/logo.png';
 import { Link } from "react-router-dom";
 import "./Header.css";
 
+function Header({ cartCount = 0, onCategorySelect }) {
+  const handleCategory = (category) => (e) => {
+    e.preventDefault();
+    if (onCategorySelect) onCategorySelect(category);
+  };
 
-function Header({ cartCount = 0 }) {
   return (
     <>
-      {/* Pasek promocji nad headerem */}
       <div className="promo-banner">
         🎉 Darmowa dostawa od 99 zł! Skorzystaj z promocji już dziś! 🎉
       </div>
 
       <header className="header">
-        {/* Lewa sekcja: logo */}
         <div className="header__logo">
           <a href="/">
             <div className="logo-circle">
@@ -24,10 +26,8 @@ function Header({ cartCount = 0 }) {
           </a>
         </div>
 
-        {/* Środek: nawigacja + wyszukiwarka */}
         <div className="header__center">
           <nav className="header__nav" aria-label="Główna nawigacja">
-            {/* SKLEP */}
             <DropdownMenu.Root>
               <DropdownMenu.Trigger asChild>
                 <a
@@ -43,72 +43,126 @@ function Header({ cartCount = 0 }) {
                 <ul>
                   <li>
                     <DropdownMenu.Item asChild>
-                      <a href="/sklep/nowosci">NOWOŚCI</a>
+                      <a href="/sklep/nowosci" onClick={handleCategory("nowosci")}>
+                        NOWOŚCI
+                      </a>
                     </DropdownMenu.Item>
                   </li>
                   <li>
                     <DropdownMenu.Item asChild>
-                      <a href="/sklep/bestsellery">BESTSELLERY</a>
+                      <a href="/sklep/bestsellery" onClick={handleCategory("bestsellery")}>
+                        BESTSELLERY
+                      </a>
                     </DropdownMenu.Item>
                   </li>
                   <li>
                     <DropdownMenu.Item asChild>
-                      <a href="/sklep/promocje" className="promo-link">% PROMOCJE</a>
+                      <a
+                        href="/sklep/promocje"
+                        className="promo-link"
+                        onClick={handleCategory("promocje")}
+                      >
+                        % PROMOCJE
+                      </a>
                     </DropdownMenu.Item>
                   </li>
                   <li className="dropdown-group group-maka">Mąki</li>
                   <li>
                     <DropdownMenu.Item asChild>
-                      <a href="/sklep/maka-ciemna-razowa">Mąka ciemna razowa</a>
+                      <a
+                        href="/sklep/maka-ciemna-razowa"
+                        onClick={handleCategory("maka-ciemna-razowa")}
+                      >
+                        Mąka ciemna razowa
+                      </a>
                     </DropdownMenu.Item>
                   </li>
                   <li>
                     <DropdownMenu.Item asChild>
-                      <a href="/sklep/maka-jasna-razowa">Mąka jasna razowa</a>
+                      <a
+                        href="/sklep/maka-jasna-razowa"
+                        onClick={handleCategory("maka-jasna-razowa")}
+                      >
+                        Mąka jasna razowa
+                      </a>
                     </DropdownMenu.Item>
                   </li>
                   <li>
                     <DropdownMenu.Item asChild>
-                      <a href="/sklep/maka-gryczana">Mąka i kasza gryczana</a>
+                      <a
+                        href="/sklep/maka-gryczana"
+                        onClick={handleCategory("maka-gryczana")}
+                      >
+                        Mąka i kasza gryczana
+                      </a>
                     </DropdownMenu.Item>
                   </li>
                   <li>
                     <DropdownMenu.Item asChild>
-                      <a href="/sklep/otreby">Otręby</a>
+                      <a
+                        href="/sklep/otreby"
+                        onClick={handleCategory("otreby")}
+                      >
+                        Otręby
+                      </a>
                     </DropdownMenu.Item>
                   </li>
                   <li>
                     <DropdownMenu.Item asChild>
-                      <a href="/sklep/ziarna">Czyszczone ziarna</a>
+                      <a
+                        href="/sklep/ziarna"
+                        onClick={handleCategory("ziarna")}
+                      >
+                        Czyszczone ziarna
+                      </a>
                     </DropdownMenu.Item>
                   </li>
                   <li className="dropdown-group group-premium">Produkty premium</li>
                   <li>
                     <DropdownMenu.Item asChild>
-                      <a href="/sklep/trufle">Produkty z trufli</a>
+                      <a
+                        href="/sklep/trufle"
+                        onClick={handleCategory("trufle")}
+                      >
+                        Produkty z trufli
+                      </a>
                     </DropdownMenu.Item>
                   </li>
                   <li>
                     <DropdownMenu.Item asChild>
-                      <a href="/sklep/kurtes">Produkty Kurtes</a>
+                      <a
+                        href="/sklep/kurtes"
+                        onClick={handleCategory("kurtes")}
+                      >
+                        Produkty Kurtes
+                      </a>
                     </DropdownMenu.Item>
                   </li>
                   <li className="dropdown-group group-przekaski">Przekąski i makarony</li>
                   <li>
                     <DropdownMenu.Item asChild>
-                      <a href="/sklep/ciastka-pierniki">Ciastka i Pierniki</a>
+                      <a
+                        href="/sklep/ciastka-pierniki"
+                        onClick={handleCategory("ciastka-pierniki")}
+                      >
+                        Ciastka i Pierniki
+                      </a>
                     </DropdownMenu.Item>
                   </li>
                   <li>
                     <DropdownMenu.Item asChild>
-                      <a href="/sklep/makarony">Makarony domowe</a>
+                      <a
+                        href="/sklep/makarony"
+                        onClick={handleCategory("makarony")}
+                      >
+                        Makarony domowe
+                      </a>
                     </DropdownMenu.Item>
                   </li>
                 </ul>
               </DropdownMenu.Content>
             </DropdownMenu.Root>
 
-            {/* DLA KLIENTA */}
             <DropdownMenu.Root>
               <DropdownMenu.Trigger asChild>
                 <a
@@ -124,24 +178,29 @@ function Header({ cartCount = 0 }) {
                 <ul>
                   <li>
                     <DropdownMenu.Item asChild>
-                      <a href="/klient/gdzie-kupisz">Gdzie kupisz nasze produkty</a>
+                      <a href="/klient/gdzie-kupisz">
+                        Gdzie kupisz nasze produkty
+                      </a>
                     </DropdownMenu.Item>
                   </li>
                   <li>
                     <DropdownMenu.Item asChild>
-                      <a href="/klient/faq">Najczęściej zadawane pytania</a>
+                      <a href="/klient/faq">
+                        Najczęściej zadawane pytania
+                      </a>
                     </DropdownMenu.Item>
                   </li>
                   <li>
                     <DropdownMenu.Item asChild>
-                      <a href="/klient/zwroty-reklamacje">Zgłoszenia, zwroty, reklamacje</a>
+                      <a href="/klient/zwroty-reklamacje">
+                        Zgłoszenia, zwroty, reklamacje
+                      </a>
                     </DropdownMenu.Item>
                   </li>
                 </ul>
               </DropdownMenu.Content>
             </DropdownMenu.Root>
 
-            {/* WSPÓŁPRACA */}
             <DropdownMenu.Root>
               <DropdownMenu.Trigger asChild>
                 <a
@@ -157,34 +216,43 @@ function Header({ cartCount = 0 }) {
                 <ul>
                   <li>
                     <DropdownMenu.Item asChild>
-                      <a href="/wspolpraca/b2b">B2B / sprzedaż hurtowa</a>
+                      <a href="/wspolpraca/b2b">
+                        B2B / sprzedaż hurtowa
+                      </a>
                     </DropdownMenu.Item>
                   </li>
                   <li>
                     <DropdownMenu.Item asChild>
-                      <a href="/wspolpraca/produkcja-kontraktowa">Produkcja kontraktowa</a>
+                      <a href="/wspolpraca/produkcja-kontraktowa">
+                        Produkcja kontraktowa
+                      </a>
                     </DropdownMenu.Item>
                   </li>
                   <li>
                     <DropdownMenu.Item asChild>
-                      <a href="/wspolpraca/wspolpracuj">Współpracuj z nami</a>
+                      <a href="/wspolpraca/wspolpracuj">
+                        Współpracuj z nami
+                      </a>
                     </DropdownMenu.Item>
                   </li>
                   <li>
                     <DropdownMenu.Item asChild>
-                      <a href="/wspolpraca/doradztwo">Doradztwo</a>
+                      <a href="/wspolpraca/doradztwo">
+                        Doradztwo
+                      </a>
                     </DropdownMenu.Item>
                   </li>
                   <li>
                     <DropdownMenu.Item asChild>
-                      <a href="/wspolpraca/media">Media o nas</a>
+                      <a href="/wspolpraca/media">
+                        Media o nas
+                      </a>
                     </DropdownMenu.Item>
                   </li>
                 </ul>
               </DropdownMenu.Content>
             </DropdownMenu.Root>
 
-            {/* BLOG */}
             <a href="/blog/" className="nav-link no-arrow">
               Blog
             </a>
@@ -195,15 +263,14 @@ function Header({ cartCount = 0 }) {
           </div>
         </div>
 
-        {/* Prawa sekcja: akcje */}
         <div className="header__actions">
-<Link to="/kontakt" aria-label="Kontakt" className="nav-link no-arrow">
-  <Mail size={20} style={{ verticalAlign: "middle" }} /> Kontakt
-</Link>
+          <Link to="/kontakt" aria-label="Kontakt" className="nav-link no-arrow">
+            <Mail size={20} style={{ verticalAlign: "middle" }} /> Kontakt
+          </Link>
 
-<Link to="/login" aria-label="Zaloguj" className="nav-link no-arrow">
-  <User size={20} style={{ verticalAlign: "middle" }} /> Zaloguj
-</Link>
+          <Link to="/login" aria-label="Zaloguj" className="nav-link no-arrow">
+            <User size={20} style={{ verticalAlign: "middle" }} /> Zaloguj
+          </Link>
           <a href="/koszyk" className="cart-link" aria-label="Koszyk">
             <ShoppingCart size={20} style={{ verticalAlign: "middle" }} /> Koszyk
             {cartCount > 0 && (

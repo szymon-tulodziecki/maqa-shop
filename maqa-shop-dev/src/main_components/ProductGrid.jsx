@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "./ProductGrid.css";
 import Ciemna_razowa from "./main_components_assets/ciemna_razowa.png";
 import Jasna_razowa from "./main_components_assets/jasna_razowa.png";
@@ -32,7 +33,6 @@ function ProductGrid({ selectedCategory }) {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        // Używaj zawsze pełnego URL do API (Vite na 5173, backend na 3001)
         const API_BASE_URL = "http://localhost:3001";
         const url = selectedCategory
           ? `${API_BASE_URL}/api/products?category=${encodeURIComponent(selectedCategory)}`
@@ -89,21 +89,26 @@ function ProductGrid({ selectedCategory }) {
           </div>
         ) : (
           paginatedProducts.map(product => {
-            // Bezpieczne pobieranie obrazka
-            const imgSrc = images[product.komponent_obrazka] || images.Ciemna_razowa;
             return (
-              <div className="product-card" key={product.id}>
-                <img
-                  src={imgSrc}
-                  alt={product.nazwa}
-                  className="product-card__image"
-                />
-                <div className="product-card__info">
-                  <h2 className="product-card__name">{product.nazwa}</h2>
-                  <div className="product-card__price">{product.cena} zł</div>
-                </div>
-                <button className="product-card__cta">Dodaj do koszyka</button>
-              </div>
+ <Link
+  to={`/produkt/${product.id}`}
+  state={{ product }}
+  key={product.id}
+  className="product-card-link"
+>
+  <div className="product-card">
+    <img
+      src={images[product.komponent_obrazka] || images.Ciemna_razowa}
+      alt={product.nazwa}
+      className="product-card__image"
+    />
+    <div className="product-card__info">
+      <h3 className="product-card__title">{product.nazwa}</h3>
+      <p className="product-card__price">{product.cena} zł</p>
+    </div>
+  </div>
+</Link>
+
             );
           })
         )}

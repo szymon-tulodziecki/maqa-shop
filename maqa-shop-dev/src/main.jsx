@@ -5,14 +5,16 @@ import './index.css'
 import App from './App.jsx'
 import Contact from './pages/contact/Contact.jsx'
 import Login from './pages/login/Login.jsx'
+import ProductPage from './pages/product_page/ProductPage.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="/Kontakt" element={<Contact />} />
-        <Route path="Login" element={<Login />} />
+        <Route path="/kontakt" element={<Contact />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/produkt/:id" element={<ProductPage />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,
